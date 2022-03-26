@@ -29,6 +29,10 @@ class Player(pygame.sprite.Sprite):
 			self.direction.x = 0
 
 	def move(self, speed):
+		# 대각선으로 이동할 때 속도 한계 돌파 방지
+		if self.direction.magnitude() != 0:
+			self.direction = self.direction.normalize()
+			
 		self.rect.center += self.direction * speed
 
 	def update(self):
