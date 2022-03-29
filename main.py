@@ -5,7 +5,7 @@ from level import Level
 class Game:
     def __init__(self):
 
-        # general setup
+        # 기본 설정
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGTH))
         pygame.display.set_caption('Adventure & Puzzle')

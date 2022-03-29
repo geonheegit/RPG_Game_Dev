@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
 		self.image = pygame.image.load('graphics/test/player.png').convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 
-		# 추가
+		# 플레이어 이동
 		self.direction = pygame.math.Vector2()
 		self.speed = settings.PLAYER_SPEED
 
