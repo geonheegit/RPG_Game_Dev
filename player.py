@@ -43,6 +43,8 @@ class Player(pygame.sprite.Sprite):
 		self.check_collision('UD')
 		self.rect.center = self.hitbox.center
 
+
+
 	# 충돌 판정
 	def check_collision(self, direction):
 		if direction == 'RL': # 좌우로 움직일 때 충돌 판정
