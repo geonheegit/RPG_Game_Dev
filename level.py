@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from tile import Tile
 from player import Player
+from bg_map import Map
 
 
 class Level:
@@ -18,6 +19,8 @@ class Level:
 		self.create_map()
 
 	def create_map(self):
+		Map([self.visible_sprites])
+
 		for row_index,row in enumerate(WORLD_MAP):
 			for col_index, col in enumerate(row):
 				x = col_index * TILESIZE
