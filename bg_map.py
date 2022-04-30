@@ -8,4 +8,3 @@ class Map(pygame.sprite.Sprite):
         self.image_size = self.image.get_size()
         self.image = pygame.transform.scale(self.image, (self.image_size[0] * self.zoom, self.image_size[1] * self.zoom)) # 32픽셀맵 :1600 더블
         self.rect = self.image.get_rect()
-        print(self.image.get_size())
