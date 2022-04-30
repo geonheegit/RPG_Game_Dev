@@ -1,14 +1,17 @@
 import pygame
 import settings
-import time
 
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self,pos,groups, obstacle_sprites):
 		super().__init__(groups)
 		# 기본
+		self.zoom = 2
 		self.image = pygame.image.load('graphics/test/player.png').convert_alpha()
 		self.default_image = [self.image]
+		self.image_size = self.default_image[0].get_size()
+		self.default_image[0] = pygame.transform.scale(self.default_image[0], (self.image_size[0] * self.zoom, self.image_size[1] * self.zoom))
+
 		self.anim_list_up = []
 		self.anim_list_down = []
 		self.anim_list_left = []

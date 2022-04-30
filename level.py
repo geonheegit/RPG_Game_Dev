@@ -19,7 +19,7 @@ class Level:
 		self.create_map()
 
 	def create_map(self):
-		Map([self.visible_sprites])
+		Map((0, 0), [self.visible_sprites])
 
 		for row_index,row in enumerate(WORLD_MAP):
 			for col_index, col in enumerate(row):
