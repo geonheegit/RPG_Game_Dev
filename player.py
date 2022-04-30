@@ -1,7 +1,6 @@
 import pygame
 import settings
 
-
 class Player(pygame.sprite.Sprite):
 	def __init__(self,pos,groups, obstacle_sprites):
 		super().__init__(groups)

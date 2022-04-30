@@ -10,7 +10,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGTH))
         pygame.display.set_caption('Adventure & Puzzle')
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.SysFont("Arial",18)
+        self.font = pygame.font.Font("font/Infinite Darkness.ttf",22)
 
         self.level = Level()
 
