@@ -1,6 +1,5 @@
 import pygame
 import settings
-import time
 
 
 class Player(pygame.sprite.Sprite):
@@ -14,6 +13,7 @@ class Player(pygame.sprite.Sprite):
 		self.anim_list_left = []
 		self.anim_list_right = []
 		self.frame_speed = 120
+		self.last_direc = "D"
 
 		# UP
 		self.image_up0 = pygame.image.load('graphics/player/up/up_0.png').convert_alpha()
@@ -68,15 +68,19 @@ class Player(pygame.sprite.Sprite):
 
 		if key_pressed[pygame.K_UP]:
 			self.direction.y = -1
+			self.last_direc = "U"
 		elif key_pressed[pygame.K_DOWN]:
 			self.direction.y = 1
+			self.last_direc = "D"
 		else:
 			self.direction.y = 0
 
 		if key_pressed[pygame.K_LEFT]:
 			self.direction.x = -1
+			self.last_direc = "L"
 		elif key_pressed[pygame.K_RIGHT]:
 			self.direction.x = 1
+			self.last_direc = "R"
 		else:
 			self.direction.x = 0
 
@@ -152,7 +156,15 @@ class Player(pygame.sprite.Sprite):
 		
 		# 기본 상태 애니메이션
 		if self.direction.x == 0 and self.direction.y == 0:
-			self.image = self.default_image[0]
+			if self.last_direc == "D":
+				self.image = self.image_down0
+			if self.last_direc == "U":
+				self.image = self.image_up0
+			if self.last_direc == "L":
+				self.image = self.image_left0
+			if self.last_direc == "R":
+				self.image = self.image_right0
+
 
 
 	def update(self):
