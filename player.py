@@ -63,6 +63,11 @@ class Player(pygame.sprite.Sprite):
 
 		self.obstacle_sprites = obstacle_sprites
 
+		# 소리
+		pygame.mixer.set_num_channels(8)
+		self.grass_walk = pygame.mixer.Sound("sfx/ogg/grass_single.ogg")
+		self.player_walk = pygame.mixer.Channel(1)
+
 	def input(self):
 		key_pressed = pygame.key.get_pressed()
 
@@ -154,8 +159,17 @@ class Player(pygame.sprite.Sprite):
 		if self.direction.x == 0 and self.direction.y == 0:
 			self.image = self.default_image[0]
 
+	def sound_check(self):
+		if self.direction.x == 0 and self.direction.y == 0:
+			self.is_moving = False
+		else:
+			self.is_moving = True
+
+		if self.is_moving == True and self.player_walk.get_busy() == False:
+			self.player_walk.play(self.grass_walk)
 
 	def update(self):
 		self.input()
 		self.move(self.speed)
 		self.animate(3)
+		self.sound_check()

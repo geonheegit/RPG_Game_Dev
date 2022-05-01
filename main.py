@@ -16,7 +16,7 @@ class Game:
 
     def update_fps(self):
         fps = str(int(self.clock.get_fps()))
-        fps_text = self.font.render(fps,1,pygame.Color("white"))
+        fps_text = self.font.render(fps, 1, pygame.Color("white"))
         return fps_text
 
     def run(self):
