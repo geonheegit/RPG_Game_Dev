@@ -21,6 +21,7 @@ class Level:
 	def create_map(self):
 		layouts = {
 			'wall_block': import_csv_layout("map/csv/test_map1_floorblocks.csv")
+			# 오브젝트 추가 가능 (tiled 레이어)
 		}
 
 		for style, layout in layouts.items():
@@ -31,11 +32,8 @@ class Level:
 						y = row_index * TILESIZE
 						if style == "wall_block":
 							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'invisible')
-
-		#		if col == 'x':
-		#			Tile((x,y),[self.visible_sprites, self.obstacle_sprites]) # visible_sprites & obstacle_sprites에 포함
-		#		if col == 'p':
-		#			self.player = Player((2000,2000),[self.visible_sprites], self.obstacle_sprites) # visible_sprites에 포함 / obstacle_sprites 그룹 제공
+						# if style == "":
+						#	Tile((x, y), [self.visible_sprites, self.obstacle_sprites], '타입', '그래픽 (사진)')
 
 		self.player = Player((2000, 2200), [self.visible_sprites], self.obstacle_sprites)  # visible_sprites에 포함 / obstacle_sprites 그룹 제공
 
