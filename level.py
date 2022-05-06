@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from tile import Tile
 from player import Player
+from csv_read import *
 
 
 class Level:
@@ -18,14 +19,25 @@ class Level:
 		self.create_map()
 
 	def create_map(self):
-		for row_index,row in enumerate(WORLD_MAP):
-			for col_index, col in enumerate(row):
-				x = col_index * TILESIZE
-				y = row_index * TILESIZE
-				if col == 'x':
-					Tile((x,y),[self.visible_sprites, self.obstacle_sprites]) # visible_sprites & obstacle_sprites에 포함
-				if col == 'p':
-					self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites) # visible_sprites에 포함 / obstacle_sprites 그룹 제공
+		layouts = {
+			'wall_block': import_csv_layout("map/csv/test_map1_floorblocks.csv")
+		}
+
+		for style, layout in layouts.items():
+			for row_index,row in enumerate(layout):
+				for col_index, col in enumerate(row):
+					if col != '-1':
+						x = col_index * TILESIZE
+						y = row_index * TILESIZE
+						if style == "wall_block":
+							Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'invisible')
+
+		#		if col == 'x':
+		#			Tile((x,y),[self.visible_sprites, self.obstacle_sprites]) # visible_sprites & obstacle_sprites에 포함
+		#		if col == 'p':
+		#			self.player = Player((2000,2000),[self.visible_sprites], self.obstacle_sprites) # visible_sprites에 포함 / obstacle_sprites 그룹 제공
+
+		self.player = Player((2000, 2200), [self.visible_sprites], self.obstacle_sprites)  # visible_sprites에 포함 / obstacle_sprites 그룹 제공
 
 	def run(self): # main에서 무한 반복
 		# 화면에 출력
