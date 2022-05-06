@@ -1,4 +1,3 @@
-# game setup
 WIDTH = 1024
 HEIGTH = 640
 FPS = 60

@@ -66,6 +66,9 @@ class Player(pygame.sprite.Sprite):
 
 		self.obstacle_sprites = obstacle_sprites
 
+		# 동굴
+		self.is_cave = True
+
 		# 소리
 		pygame.mixer.set_num_channels(8) # 소리 채널 8개로 나눠놓기
 
@@ -181,7 +184,7 @@ class Player(pygame.sprite.Sprite):
 			self.player_walk.play(self.grass_walk)
 
 	def bgm_play(self):
-		if not self.main_bgm.get_busy():  # 중복 재생 방지
+		if not self.main_bgm.get_busy() and self.is_cave:  # 중복 재생 방지
 			self.main_bgm.play(self.cave_bgm)
 
 	def update(self):
