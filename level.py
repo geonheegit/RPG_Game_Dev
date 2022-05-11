@@ -20,7 +20,7 @@ class Level:
 
 	def create_map(self):
 		layouts = {
-			'wall_block': import_csv_layout("map/csv/test_map1_floorblocks.csv")
+			'wall_block': import_csv_layout("map/csv/island_floorblock.csv")
 			# 오브젝트 추가 가능 (tiled 레이어)
 		}
 
@@ -50,7 +50,7 @@ class Camera(pygame.sprite.Group):
 
 		# 맵
 		self.zoom = 2
-		self.floor_surf = pygame.image.load("map/test_map1.png").convert()
+		self.floor_surf = pygame.image.load("map/island.png").convert()
 		self.map_size = self.floor_surf.get_size()
 		self.floor_surf = pygame.transform.scale(self.floor_surf, (self.map_size[0] * self.zoom, self.map_size[1] * self.zoom))
 		self.floor_rect = self.floor_surf.get_rect(topleft = (0, 0))

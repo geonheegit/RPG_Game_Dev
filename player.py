@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
 		self.anim_list_down = []
 		self.anim_list_left = []
 		self.anim_list_right = []
+		self.anim_list_idle = []
 		self.frame_speed = 120
 
 		# UP
@@ -25,6 +26,9 @@ class Player(pygame.sprite.Sprite):
 		self.image_up3 = pygame.image.load('graphics/player/up/up_3.png').convert_alpha()
 		for i in range(4):
 			self.anim_list_up.append(eval("self.image_up{}".format(i)))
+		self.image_size_up = self.anim_list_up[0].get_size()
+		for i in range(4):
+			self.anim_list_up[i] = pygame.transform.scale(self.anim_list_up[i], (self.image_size_up[0] * self.zoom, self.image_size_up[1] * self.zoom))
 
 		# DOWN
 		self.image_down0 = pygame.image.load('graphics/player/down/down_0.png').convert_alpha()
@@ -33,6 +37,9 @@ class Player(pygame.sprite.Sprite):
 		self.image_down3 = pygame.image.load('graphics/player/down/down_3.png').convert_alpha()
 		for i in range(4):
 			self.anim_list_down.append(eval("self.image_down{}".format(i)))
+		self.image_size_down = self.anim_list_down[0].get_size()
+		for i in range(4):
+			self.anim_list_down[i] = pygame.transform.scale(self.anim_list_down[i], (self.image_size_down[0] * self.zoom, self.image_size_down[1] * self.zoom))
 
 		# LEFT
 		self.image_left0 = pygame.image.load('graphics/player/left/left_0.png').convert_alpha()
@@ -41,6 +48,9 @@ class Player(pygame.sprite.Sprite):
 		self.image_left3 = pygame.image.load('graphics/player/left/left_3.png').convert_alpha()
 		for i in range(4):
 			self.anim_list_left.append(eval("self.image_left{}".format(i)))
+		self.image_size_left = self.anim_list_left[0].get_size()
+		for i in range(4):
+			self.anim_list_left[i] = pygame.transform.scale(self.anim_list_left[i], (self.image_size_left[0] * self.zoom, self.image_size_left[1] * self.zoom))
 
 		# RIGHT
 		self.image_right0 = pygame.image.load('graphics/player/right/right_0.png').convert_alpha()
@@ -49,6 +59,20 @@ class Player(pygame.sprite.Sprite):
 		self.image_right3 = pygame.image.load('graphics/player/right/right_3.png').convert_alpha()
 		for i in range(4):
 			self.anim_list_right.append(eval("self.image_right{}".format(i)))
+		self.image_size_right = self.anim_list_right[0].get_size()
+		for i in range(4):
+			self.anim_list_right[i] = pygame.transform.scale(self.anim_list_right[i], (self.image_size_right[0] * self.zoom, self.image_size_right[1] * self.zoom))
+
+		# IDLE
+		self.image_idle0 = pygame.image.load('graphics/player/custom_player/idle/idle_0.png').convert_alpha()
+		self.image_idle1 = pygame.image.load('graphics/player/custom_player/idle/idle_0.png').convert_alpha()
+		self.image_idle2 = pygame.image.load('graphics/player/custom_player/idle/idle_1.png').convert_alpha()
+		self.image_idle3 = pygame.image.load('graphics/player/custom_player/idle/idle_1.png').convert_alpha()
+		for i in range(4):
+			self.anim_list_idle.append(eval("self.image_idle{}".format(i)))
+		self.image_size_idle = self.anim_list_idle[0].get_size()
+		for i in range(4):
+			self.anim_list_idle[i] = pygame.transform.scale(self.anim_list_idle[i], (self.image_size_idle[0] * self.zoom, self.image_size_idle[1] * self.zoom))
 
 		self.rect = self.default_image[0].get_rect(topleft = pos) # 수정
 		self.hitbox = self.rect.inflate(-15, -15)
@@ -57,6 +81,7 @@ class Player(pygame.sprite.Sprite):
 		self.count_down = 0
 		self.count_left = 0
 		self.count_right = 0
+		self.count_idle = 0
 
 		self.last_change = 0
 
@@ -170,9 +195,14 @@ class Player(pygame.sprite.Sprite):
 			if self.count_right == max_frame:
 				self.count_right = 0
 		
-		# 기본 상태 애니메이션
+		# IDLE 애니메이션
 		if self.direction.x == 0 and self.direction.y == 0:
-			self.image = self.default_image[0]
+			if now - self.last_change > self.frame_speed:
+				self.last_change = now
+				self.count_idle += 1
+				self.image = self.anim_list_idle[self.count_idle]
+			if self.count_idle == max_frame:
+				self.count_idle = 0
 
 	def walk_sound_check(self):
 		if self.direction.x == 0 and self.direction.y == 0:
