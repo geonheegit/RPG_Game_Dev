@@ -23,11 +23,10 @@ class Level:
 		self.tiles = []
 
 	def create_map(self):
-		if self.current_stage == 'test_stage':
-			if len(self.tiles) != 0:
-				for i in range(len(self.tiles)):
-					self.tiles[i].kill()
-				self.tiles.clear()
+		if len(self.tiles) != 0:
+			for i in range(len(self.tiles)):
+				self.tiles[i].kill()
+			self.tiles.clear()
 
 		if self.current_stage == 'island':
 			layouts = {
