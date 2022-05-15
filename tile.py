@@ -1,6 +1,7 @@
 import pygame 
 from settings import *
 
+
 class Tile(pygame.sprite.Sprite):
 	def __init__(self,pos,groups, sprite_type, surface = pygame.Surface((TILESIZE, TILESIZE))):
 		super().__init__(groups)
@@ -8,3 +9,6 @@ class Tile(pygame.sprite.Sprite):
 		self.image = surface
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(-10, -10)  # 타일 히트박스
+
+	def __del__(self):
+		print("deleted")

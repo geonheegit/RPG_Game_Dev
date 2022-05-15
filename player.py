@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
 		super().__init__(groups)
 		# 기본
 		self.zoom = 2
-		self.image = pygame.image.load('graphics/test/player.png').convert_alpha()
+		self.image = pygame.image.load('graphics/player/custom_player/default/player.png').convert_alpha()
 		self.default_image = [self.image]
 		self.image_size = self.default_image[0].get_size()
 		self.default_image[0] = pygame.transform.scale(self.default_image[0], (self.image_size[0] * self.zoom, self.image_size[1] * self.zoom))
