@@ -36,6 +36,7 @@ class Level:
 			for style, layout in layouts.items():
 				for row_index,row in enumerate(layout):
 					for col_index, col in enumerate(row):
+
 						if col != '-1':
 							x = col_index * TILESIZE
 							y = row_index * TILESIZE

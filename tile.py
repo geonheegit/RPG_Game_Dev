@@ -11,4 +11,4 @@ class Tile(pygame.sprite.Sprite):
 		self.hitbox = self.rect.inflate(-10, -10)  # 타일 히트박스
 
 	def __del__(self):
-		print("deleted")
+		pass
