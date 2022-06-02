@@ -140,7 +140,7 @@ class Player(pygame.sprite.Sprite):
 	# 충돌 판정
 	def check_collision(self, direction):
 		if direction == 'RL': # 좌우로 움직일 때 충돌 판정
-			for sprite in self.obstacle_sprites:
+			for sprite in self.obstacle_sprites:	
 				if sprite.hitbox.colliderect(self.hitbox):
 					if self.direction.x > 0:
 						self.hitbox.right = sprite.hitbox.left
