@@ -80,6 +80,7 @@ class GameState():
             # 플레이어 재배치
             level.player.hitbox.x = 2000
             level.player.hitbox.y = 2200
+
             # 맵 변경 변수
             self.is_intro = False
             self.is_island = True
