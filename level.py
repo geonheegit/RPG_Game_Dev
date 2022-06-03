@@ -20,7 +20,7 @@ class Level:
 						 self.obstacle_sprites)  # visible_sprites에 포함 / obstacle_sprites 그룹
 		# 적 로딩
 
-		self.enemy = Enemy((1000,1000),[self.visible_sprites])
+		self.enemy = Enemy((1600,1600),[self.visible_sprites])
 
 		self.current_stage = 'intro'
 		# wall_block 타일 객체 리스트 (객체 삭제용)
