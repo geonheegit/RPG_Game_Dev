@@ -133,22 +133,10 @@ class Player(pygame.sprite.Sprite):
 
 		self.obstacle_sprites = obstacle_sprites
 
-		# 동굴
-		self.is_cave = True
-
-		# 소리
-		pygame.mixer.set_num_channels(8) # 소리 채널 8개로 나눠놓기
-
 		# 걷는 소리
 		self.grass_walk = pygame.mixer.Sound("sfx/ogg/grass_single.ogg")
 		self.grass_walk.set_volume(0.3)
 		self.player_walk = pygame.mixer.Channel(1) # player_walk 채널을 1번 채널로 설정 (grass_walk를 player_walk 채널에서 재생)
-
-		# 동굴 BGM
-		self.cave_bgm = pygame.mixer.Sound("sfx/ogg/cave_bgm.ogg")
-		self.cave_bgm.set_volume(0.15)
-		self.main_bgm = pygame.mixer.Channel(2) # main_bgm 채널을 2번 채널로 설정 (cave_bgm을 main_bgm 채널에서 재생)
-
 
 	def input(self):
 		key_pressed = pygame.key.get_pressed()
@@ -286,13 +274,8 @@ class Player(pygame.sprite.Sprite):
 		if self.is_moving and self.player_walk.get_busy() == False:  # 중복 재생 방지
 			self.player_walk.play(self.grass_walk)
 
-	def bgm_play(self):
-		if not self.main_bgm.get_busy() and self.is_cave:  # 중복 재생 방지
-			self.main_bgm.play(self.cave_bgm)
-
 	def update(self):
 		self.input()
 		self.move(self.speed)
 		self.animate(3)
 		self.walk_sound_check()
-		self.bgm_play()
