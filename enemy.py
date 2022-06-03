@@ -13,27 +13,18 @@ class Enemy(pygame.sprite.Sprite):
         self.default_image = [self.image]
         self.image_size = self.default_image[0].get_size()
         self.rect = self.image.get_rect()
-        self.default_image[0] = pygame.transform.scale(self.default_image[0],
-                                                       (self.image_size[0] * self.zoom, self.image_size[1] * self.zoom))
+        self.default_image[0] = pygame.transform.scale(self.default_image[0], (self.image_size[0] * self.zoom, self.image_size[1] * self.zoom))
 
-        self.anim_list_up = []
-        self.anim_list_down = []
-        self.anim_list_left = []
-        self.anim_list_right = []
+        self.anim_list_move = []
         self.anim_list_idle = []
         self.frame_speed = 120
 
         self.counter = 0
         self.last_change = 0
-        self.frame_speed =120
+        self.frame_speed = 120
 
         self.hitbox = self.rect
-        self.rect = self.default_image[0].get_rect(topleft=pos)
-
-
-
-
-
+        self.rect = self.default_image[0].get_rect(topleft = pos)
 
     def move_towards_player(self, player):
         dx, dy = player.rect.x - self.rect.x, player.rect.y - self.rect.y
