@@ -1,12 +1,13 @@
 import pygame
 import settings
+from entity import Entity
 
-
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
 	def __init__(self,pos,groups, obstacle_sprites):
 		super().__init__(groups)
 		# 기본
 		self.zoom = 2
+		self.HP = 100
 		self.image = pygame.image.load('graphics/player/custom_player/default/player.png').convert_alpha()
 		self.default_image = [self.image]
 		self.image_size = self.default_image[0].get_size()
@@ -159,35 +160,7 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.direction.x = 0
 
-	def move(self, speed):
-		# 대각선으로 이동할 때 속도 한계 돌파 방지
-		if self.direction.magnitude() != 0:
-			self.direction = self.direction.normalize()
-		
-		# 충돌판정 적용 및 움직임 구현
-		self.hitbox.x += self.direction.x * speed
-		self.check_collision('RL')
-		self.hitbox.y += self.direction.y * speed
-		self.check_collision('UD')
-		self.rect.center = self.hitbox.center
 
-	# 충돌 판정
-	def check_collision(self, direction):
-		if direction == 'RL': # 좌우로 움직일 때 충돌 판정
-			for sprite in self.obstacle_sprites:	
-				if sprite.hitbox.colliderect(self.hitbox):
-					if self.direction.x > 0:
-						self.hitbox.right = sprite.hitbox.left
-					if self.direction.x < 0:
-						self.hitbox.left = sprite.hitbox.right
-
-		if direction == 'UD': # 상하로 움직일 때 충돌 판정
-			for sprite in self.obstacle_sprites:
-				if sprite.hitbox.colliderect(self.hitbox):
-					if self.direction.y > 0:
-						self.hitbox.bottom = sprite.hitbox.top
-					if self.direction.y < 0:
-						self.hitbox.top = sprite.hitbox.bottom
 
 	def animate(self, max_frame):
 		key_pressed = pygame.key.get_pressed()
@@ -274,8 +247,18 @@ class Player(pygame.sprite.Sprite):
 		if self.is_moving and self.player_walk.get_busy() == False:  # 중복 재생 방지
 			self.player_walk.play(self.grass_walk)
 
+
+	def check_game_over(self):
+		if self.HP <= 0:
+			print("game over!")
+
+
+
+
+
 	def update(self):
 		self.input()
 		self.move(self.speed)
 		self.animate(3)
 		self.walk_sound_check()
+		self.check_game_over()

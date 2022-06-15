@@ -92,10 +92,7 @@ class GameState():
                                                      (level.visible_sprites.map_size[0] * self.zoom, level.visible_sprites.map_size[1] * self.zoom))
             level.visible_sprites.floor_rect = level.visible_sprites.floor_surf.get_rect(topleft=(0, 0))
             # 플레이어 재배치
-            level.player.hitbox.x = 2000
-            level.player.hitbox.y = 2200
-            level.enemy.hitbox.x = 2000
-            level.enemy.hitbox.y = 2000
+
             
             # 맵 변경 변수
             self.is_intro = False
@@ -165,7 +162,7 @@ class GameState():
 
 level = Level()
 game_state = GameState()
-
+hit_cooldown = 0
 while True:
     game_state.state_manager()
     clock.tick(FPS)

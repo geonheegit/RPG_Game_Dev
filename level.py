@@ -1,3 +1,5 @@
+import time
+
 import pygame
 from settings import *
 from tile import Tile
@@ -15,16 +17,13 @@ class Level:
 		self.visible_sprites = Camera()
 		self.obstacle_sprites = pygame.sprite.Group()
 
-		# 메인 플레이어 로딩
-		self.player = Player((0, 0), [self.visible_sprites],
-						 self.obstacle_sprites)  # visible_sprites에 포함 / obstacle_sprites 그룹
-		# 적 로딩
 
-		self.enemy = Enemy((1600,1600),[self.visible_sprites])
+
 
 		self.current_stage = 'intro'
 		# wall_block 타일 객체 리스트 (객체 삭제용)
 		self.tiles = []
+
 
 	def create_map(self):
 		if len(self.tiles) != 0:
@@ -34,7 +33,8 @@ class Level:
 
 		if self.current_stage == 'island':
 			layouts = {
-				'wall_block': import_csv_layout("map/csv/island_floorblock.csv")
+				'wall_block': import_csv_layout("map/csv/island_floorblock.csv"),
+				'entities': import_csv_layout("map/csv/test.csv")
 				# 오브젝트 추가 가능 (tiled 레이어)
 			}
 			for style, layout in layouts.items():
@@ -46,13 +46,23 @@ class Level:
 							y = row_index * TILESIZE
 							if style == "wall_block":
 								self.tiles.append(Tile((x, y), [self.visible_sprites, self.obstacle_sprites], 'invisible'))
+
+							if style == 'entities':
+								if col == '5':
+									self.player = Player(
+										(x,y),
+										[self.visible_sprites],
+										self.obstacle_sprites
+									)
+								if col == '37':
+									Enemy('monster',(x,y),[self.visible_sprites])
+
 								# if style == "":
 								# Tile((x, y), [self.visible_sprites, self.obstacle_sprites], '타입', '그래픽 (사진)')
 
 	def run(self): # main에서 무한 반복
 		self.visible_sprites.new_draw(self.player) # visible_sprites에 있는 것을 화면에 출력 / new_draw로 (카메라)
 		self.visible_sprites.update()
-		self.enemy.move_towards_player(self.player)
 
 class Camera(pygame.sprite.Group):
 	def __init__(self):
