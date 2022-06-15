@@ -84,7 +84,7 @@ class GameState():
 
         if self.is_island == False:
             # 맵 재로딩
-            level.create_map()
+            level.create_map()  # 타일 초기화
             # 맵 구성 요소
             level.visible_sprites.floor_surf = pygame.image.load("map/island.png").convert()
             level.visible_sprites.map_size = level.visible_sprites.floor_surf.get_size()
@@ -94,8 +94,6 @@ class GameState():
             # 플레이어 재배치
             level.player.hitbox.x = 2000
             level.player.hitbox.y = 2200
-            level.enemy.hitbox.x = 2000
-            level.enemy.hitbox.y = 2000
             
             # 맵 변경 변수
             self.is_intro = False
@@ -128,7 +126,7 @@ class GameState():
             # 맵 재로딩
             level.create_map()
             # 맵 구성 요소
-            level.visible_sprites.floor_surf = pygame.image.load("map/test_map1.png").convert()
+            level.visible_sprites.floor_surf = pygame.image.load("map/cave.png").convert()
             level.visible_sprites.map_size = level.visible_sprites.floor_surf.get_size()
             level.visible_sprites.floor_surf = pygame.transform.scale(level.visible_sprites.floor_surf,
                                                                       (level.visible_sprites.map_size[0] * self.zoom,
