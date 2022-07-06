@@ -51,13 +51,11 @@ class GameState():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_RETURN:
                     self.STAGE = 'island'
                     level.current_stage = 'island'
-                if event.key == pygame.K_b:
-                    self.STAGE = 'cave'
-                    level.current_stage = 'cave'
 
+        # 처음 시작했을 때 화면 설정
         if self.is_intro == False:
             level.player.hitbox.x = 0
             level.player.hitbox.y = 0
@@ -65,7 +63,7 @@ class GameState():
             self.is_island = False
             self.is_cave = False
 
-        screen.blit(font.render("Press \'A\' to island \n Press \'B\' to test", 1,
+        screen.blit(font.render("Press \'ENTER\' to START", 1,
                                 pygame.Color("white")), (WIDTH / 2 - 100, HEIGTH / 2))
 
     def island(self):
@@ -74,13 +72,11 @@ class GameState():
                     pygame.quit()
                     sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    self.STAGE = 'island'
-                    level.current_stage = 'island'
-
-                if event.key == pygame.K_b:
-                    self.STAGE = 'cave'
-                    level.current_stage = 'cave'
+                if event.key == pygame.K_SPACE:
+                    # 동굴 x 1900 - 2000, y 2300 - 2400 / 숲 x 2400 - 2500, y 600 - 700 / 해변 x 600 - 800, y 2800 - 2900
+                    if 1900 < level.player.hitbox.x < 2000 and 2300 < level.player.hitbox.y < 2400:
+                        self.STAGE = 'cave'
+                        level.current_stage = 'cave'
 
         if self.is_island == False:
             # 맵 재로딩
@@ -110,8 +106,8 @@ class GameState():
     def cave(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     self.STAGE = 'island'
@@ -121,9 +117,7 @@ class GameState():
                     level.current_stage = 'cave'
 
         if self.is_cave == False:
-            # 이전 맵의 wall_block 삭제
-
-            # 맵 재로딩
+            # 맵 재로딩 (이전 맵의 wall_block 삭제)
             level.create_map()
             # 맵 구성 요소
             level.visible_sprites.floor_surf = pygame.image.load("map/cave.png").convert()
