@@ -109,12 +109,11 @@ class GameState():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    self.STAGE = 'island'
-                    level.current_stage = 'island'
-                if event.key == pygame.K_b:
-                    self.STAGE = 'cave'
-                    level.current_stage = 'cave'
+                if event.key == pygame.K_SPACE:
+                    # 동굴 x 1900 - 2000, y 2300 - 2400 / 숲 x 2400 - 2500, y 600 - 700 / 해변 x 600 - 800, y 2800 - 2900
+                    if 1900 < level.player.hitbox.x < 2000 and 2300 < level.player.hitbox.y < 2400:
+                        self.STAGE = 'cave'
+                        level.current_stage = 'cave'
 
         if self.is_cave == False:
             # 맵 재로딩 (이전 맵의 wall_block 삭제)
@@ -127,8 +126,8 @@ class GameState():
                                                                        level.visible_sprites.map_size[1] * self.zoom))
             level.visible_sprites.floor_rect = level.visible_sprites.floor_surf.get_rect(topleft=(0, 0))
 
-            level.player.hitbox.x = 2000
-            level.player.hitbox.y = 2200
+            level.player.hitbox.x = 0
+            level.player.hitbox.y = 100
             self.is_intro = False
             self.is_island = False
             self.is_cave = True
