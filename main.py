@@ -1,5 +1,5 @@
 import pygame, sys
-from settings import *
+import settings
 from level import Level
 from csv_read import *
 import tile
@@ -8,6 +8,10 @@ pygame.init()
 pygame.display.set_caption('Adventure & Puzzle')
 clock = pygame.time.Clock()
 font = pygame.font.Font("font/Infinite Darkness.ttf",22)
+
+WIDTH = settings.WIDTH
+HEIGTH = settings.HEIGTH
+FPS = settings.FPS
 
 screen = pygame.display.set_mode((WIDTH, HEIGTH))
 
@@ -28,6 +32,8 @@ class GameState():
         self.is_intro = True
         self.is_island = False
         self.is_cave = False
+        self.is_beach = False
+        self.is_forest = False
         self.zoom = 2
         self.STAGE = 'intro'
 
@@ -62,6 +68,8 @@ class GameState():
             self.is_intro = True
             self.is_island = False
             self.is_cave = False
+            self.is_beach = False
+            self.is_forest = False
 
         screen.blit(font.render("Press \'ENTER\' to START", 1,
                                 pygame.Color("white")), (WIDTH / 2 - 100, HEIGTH / 2))
@@ -77,6 +85,15 @@ class GameState():
                     if 1900 < level.player.hitbox.x < 2000 and 2300 < level.player.hitbox.y < 2400:
                         self.STAGE = 'cave'
                         level.current_stage = 'cave'
+
+                    if 600 < level.player.hitbox.x < 800 and 2800 < level.player.hitbox.y < 2900:
+                        self.STAGE = 'beach'
+                        level.current_stage = 'beach'
+                        
+                    if 2400 < level.player.hitbox.x < 2500 and 600 < level.player.hitbox.y < 700:  # 숲 트리거
+                        self.STAGE = 'forest'
+                        level.current_stage = 'forest'
+
 
         if self.is_island == False:
             # 맵 재로딩
@@ -95,6 +112,8 @@ class GameState():
             self.is_intro = False
             self.is_island = True
             self.is_cave = False
+            self.is_beach = False
+            self.is_forest = False
 
         screen.fill('black')
         level.run()
@@ -111,9 +130,9 @@ class GameState():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     # 동굴 x 1900 - 2000, y 2300 - 2400 / 숲 x 2400 - 2500, y 600 - 700 / 해변 x 600 - 800, y 2800 - 2900
-                    if 1900 < level.player.hitbox.x < 2000 and 2300 < level.player.hitbox.y < 2400:
-                        self.STAGE = 'cave'
-                        level.current_stage = 'cave'
+                    if 800 < level.player.hitbox.x < 900 and 3100 < level.player.hitbox.y < 3200:
+                        self.STAGE = 'island'
+                        level.current_stage = 'island'
 
         if self.is_cave == False:
             # 맵 재로딩 (이전 맵의 wall_block 삭제)
@@ -126,15 +145,97 @@ class GameState():
                                                                        level.visible_sprites.map_size[1] * self.zoom))
             level.visible_sprites.floor_rect = level.visible_sprites.floor_surf.get_rect(topleft=(0, 0))
 
-            level.player.hitbox.x = 0
-            level.player.hitbox.y = 100
+            level.player.hitbox.x = 100
+            level.player.hitbox.y = 60
             self.is_intro = False
             self.is_island = False
             self.is_cave = True
+            self.is_beach = False
+            self.is_forest = False
 
         screen.fill('black')
         level.run()
         screen.blit(update_fps(), (10, 0))
+        # 플레이어 위치 표시
+        update_position()
+
+    def beach(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    # 동굴 x 1900 - 2000, y 2300 - 2400 / 숲 x 2400 - 2500, y 600 - 700 / 해변 x 600 - 800, y 2800 - 2900
+                    if 600 < level.player.hitbox.x < 800 and 2800 < level.player.hitbox.y < 2900:
+                        self.STAGE = 'beach'
+                        level.current_stage = 'beach'
+
+        if self.is_beach == False:
+            # 맵 재로딩
+            level.create_map()  # 타일 초기화
+            # 맵 구성 요소
+            level.visible_sprites.floor_surf = pygame.image.load("map/beach.png").convert()
+            level.visible_sprites.map_size = level.visible_sprites.floor_surf.get_size()
+            level.visible_sprites.floor_surf = pygame.transform.scale(level.visible_sprites.floor_surf,
+                                                                      (level.visible_sprites.map_size[0] * self.zoom,
+                                                                       level.visible_sprites.map_size[1] * self.zoom))
+            level.visible_sprites.floor_rect = level.visible_sprites.floor_surf.get_rect(topleft=(0, 0))
+            # 플레이어 재배치
+            level.player.hitbox.x = 400
+            level.player.hitbox.y = 1000
+
+            # 맵 변경 변수
+            self.is_intro = False
+            self.is_island = False
+            self.is_cave = False
+            self.is_beach = True
+            self.is_forest = False
+
+        screen.fill('black')
+        level.run()
+        screen.blit(update_fps(), (10, 0))
+
+        # 플레이어 위치 표시
+        update_position()
+
+    def forest(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    # 동굴 x 1900 - 2000, y 2300 - 2400 / 숲 x 2400 - 2500, y 600 - 700 / 해변 x 600 - 800, y 2800 - 2900
+                    if 1900 < level.player.hitbox.x < 2000 and 2300 < level.player.hitbox.y < 2400:  # 숲에서 무인도로 (수정 필요)
+                        self.STAGE = 'island'
+                        level.current_stage = 'island'
+
+        if self.is_forest == False:
+            # 맵 재로딩
+            level.create_map()  # 타일 초기화
+            # 맵 구성 요소
+            level.visible_sprites.floor_surf = pygame.image.load("map/forest.png").convert()  # forest 이미지
+            level.visible_sprites.map_size = level.visible_sprites.floor_surf.get_size()
+            level.visible_sprites.floor_surf = pygame.transform.scale(level.visible_sprites.floor_surf,
+                                                                      (level.visible_sprites.map_size[0] * self.zoom,
+                                                                       level.visible_sprites.map_size[1] * self.zoom))
+            level.visible_sprites.floor_rect = level.visible_sprites.floor_surf.get_rect(topleft=(0, 0))
+            # 플레이어 재배치
+            level.player.hitbox.x = 30
+            level.player.hitbox.y = 300
+
+            # 맵 변경 변수
+            self.is_intro = False
+            self.is_island = False
+            self.is_cave = False
+            self.is_beach = False
+            self.is_forest = True
+
+        screen.fill('black')
+        level.run()
+        screen.blit(update_fps(), (10, 0))
+
         # 플레이어 위치 표시
         update_position()
 
@@ -145,6 +246,10 @@ class GameState():
             self.island()
         if self.STAGE == 'cave':
             self.cave()
+        if self.STAGE == 'beach':
+            self.beach()
+        if self.STAGE == 'forest':
+            self.forest()
 
     def bgm_play(self):
         if self.is_cave and not self.cave_bgm_chan.get_busy():

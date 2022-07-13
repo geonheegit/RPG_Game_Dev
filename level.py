@@ -60,6 +60,21 @@ class Level:
 							if style == "wall_block":
 								self.tiles.append(Tile((x, y), [self.obstacle_sprites], 'invisible'))
 
+		if self.current_stage == 'beach':
+			layouts = {
+				'wall_block': import_csv_layout("map/csv/beach_floorblock.csv")  # beach 수정 필요
+			}
+
+			for style, layout in layouts.items():
+				for row_index,row in enumerate(layout):
+					for col_index, col in enumerate(row):
+
+						if col != '-1':
+							x = col_index * TILESIZE
+							y = row_index * TILESIZE
+							if style == "wall_block":
+								self.tiles.append(Tile((x, y), [self.obstacle_sprites], 'invisible'))
+
 
 	def run(self): # main에서 무한 반복
 		self.visible_sprites.new_draw(self.player) # visible_sprites에 있는 것을 화면에 출력 / new_draw로 (카메라)
